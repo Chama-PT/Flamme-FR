@@ -1,0 +1,50 @@
+name: Mise à jour du risque d’incendie de forêt
+
+on:
+  schedule:
+    # Chaque jour à 05 h 00 UTC (07 h 00 en été, 06 h 00 en hiver à Paris).
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+# Permissions minimales : seul le commit du fichier de données est nécessaire.
+permissions:
+  contents: write
+
+# Évite deux exécutions simultanées qui se disputeraient le push.
+concurrency:
+  group: update-fwi-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Calculer et publier les niveaux
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24" # LTS ; aucune dépendance npm à installer
+
+      - name: Télécharger les prévisions et calculer l’indice FWI
+        env:
+          # API Open-Meteo : sans clé pour un usage non commercial. Variable facultative.
+          OPEN_METEO_URL: ${{ vars.OPEN_METEO_URL || 'https://api.open-meteo.com/v1/forecast' }}
+        run: node scripts/fetch-data.js
+
+      - name: Valider et pousser les fichiers modifiés
+        run: |
+          PATHS="data index.html sitemap.xml robots.txt manifest.webmanifest 404.html departement"
+          if [ -z "$(git status --porcelain -- $PATHS)" ]; then
+            echo "Aucun changement : pas de commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add $PATHS
+          git commit -m "chore(data): mise à jour automatique du risque d’incendie"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
