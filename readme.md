@@ -79,41 +79,6 @@ Le projet est conçu pour être déployé sur [Vercel](https://vercel.com).
 
 Chaque commit de données déclenche automatiquement un nouveau déploiement.
 
-## Référencement
-
-Le script `scripts/build-seo.js` génère automatiquement les éléments nécessaires au référencement du site :
-
-- une page statique par département, avec un titre, une description, un `h1` et les niveaux J+1 / J+2 ;
-- les balises essentielles de la page d’accueil : titre, description, URL canonique, Open Graph et Twitter Card ;
-- des données structurées JSON-LD (`WebSite`, `Dataset`, et `BreadcrumbList` sur les pages départements) ;
-- un `sitemap.xml`, un `robots.txt`, un `manifest.webmanifest` et une page `404.html` ;
-- des liens internes vers les 96 départements et une section de questions fréquentes.
-
-Le site ne utilise aucun cookie, traceur ou script tiers.
-
-### Configurer l’adresse du site
-
-L’adresse publique est définie par la variable `SITE_URL` du workflow. Par défaut, elle vaut :
-
-```text
-[https://flammefr.vercel.app/](https://flammefr.vercel.app/)
-```
-
-Pour utiliser un domaine personnalisé :
-
-1. Créez la variable `SITE_URL` dans **Settings > Secrets and variables > Actions > Variables**.
-2. Indiquez l’adresse complète, avec `https://` et une barre oblique finale, par exemple `https://flammefr.fr/`.
-3. Relancez le workflow pour régénérer les pages, le sitemap et les balises canoniques.
-
-L’adresse du sitemap doit correspondre exactement à celle déclarée dans la Google Search Console.
-
-### Après la mise en ligne
-
-1. Ajoutez le site à la [Google Search Console](https://search.google.com/search-console) avec une propriété de type « Préfixe d’URL ».
-2. Soumettez le fichier `sitemap.xml`.
-3. Faites de même dans [Bing Webmaster Tools](https://www.bing.com/webmasters).
-4. Demandez l’indexation de la page d’accueil et de quelques pages départements avec l’outil « Inspection de l’URL ».
-
 ## Configuration
 
 Aucun secret n’est requis.
