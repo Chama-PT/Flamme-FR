@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <!-- seo:head:begin -->
+  <title>Risque incendie de forêt par département | FlammeFR</title>
+  <meta name="description" content="Risque d’incendie de forêt par département en France métropolitaine : niveau prévu pour demain et après-demain, calculé chaque jour à partir de prévisions météo (indice FWI canadien).">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://flamme-fr.vercel.app/">
+  <link rel="alternate" hreflang="fr-FR" href="https://flamme-fr.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="FlammeFR">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:title" content="Risque incendie de forêt par département | FlammeFR">
+  <meta property="og:description" content="Risque d’incendie de forêt par département en France métropolitaine : niveau prévu pour demain et après-demain, calculé chaque jour à partir de prévisions météo (indice FWI canadien).">
+  <meta property="og:url" content="https://flamme-fr.vercel.app/">
+  <meta property="og:image" content="https://flamme-fr.vercel.app/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="FlammeFR : risque d’incendie de forêt par département en France métropolitaine">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Risque incendie de forêt par département | FlammeFR">
+  <meta name="twitter:description" content="Risque d’incendie de forêt par département en France métropolitaine : niveau prévu pour demain et après-demain, calculé chaque jour à partir de prévisions météo (indice FWI canadien).">
+  <meta name="twitter:image" content="https://flamme-fr.vercel.app/assets/img/og-image.png">
+  <meta name="theme-color" content="#0b0c10">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="./assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="./assets/img/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="./assets/img/apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebSite", "@id": "https://flamme-fr.vercel.app/#website", "url": "https://flamme-fr.vercel.app/", "name": "FlammeFR", "inLanguage": "fr-FR", "description": "Risque d’incendie de forêt par département en France métropolitaine, calculé à partir de prévisions météo (indice FWI)."}, {"@type": "Dataset", "@id": "https://flamme-fr.vercel.app/#dataset", "url": "https://flamme-fr.vercel.app/", "inLanguage": "fr-FR", "name": "Niveaux de risque d’incendie de forêt par département (J+1 et J+2)", "description": "Niveaux de danger d’incendie de forêt (1 Faible à 4 Très élevé), calculés à partir de l’indice forêt-météo (FWI) au chef-lieu de chaque département de France métropolitaine, pour demain et après-demain.", "license": "https://creativecommons.org/licenses/by/4.0/", "citation": "Open-Meteo.com, prévisions météo (licence CC BY 4.0), https://open-meteo.com/", "isBasedOn": "https://open-meteo.com/", "spatialCoverage": "France métropolitaine", "creator": {"@type": "Organization", "name": "FlammeFR", "url": "https://flamme-fr.vercel.app/"}, "distribution": {"@type": "DataDownload", "encodingFormat": "application/json", "contentUrl": "https://flamme-fr.vercel.app/data/fwi.json"}}]}</script>
+<!-- seo:head:end -->
+  <link rel="stylesheet" href="./assets/css/styles.css">
+  <script src="./assets/js/app.js" defer></script>
+</head>
+<body>
+  <!-- Icônes : forme distincte pour chaque niveau, pour ne pas dépendre de la seule couleur. -->
+  <svg width="0" height="0" aria-hidden="true" focusable="false" class="sprite">
+    <symbol id="icon-1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></symbol>
+    <symbol id="icon-2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+    <symbol id="icon-3" viewBox="0 0 24 24"><path d="M12 3.5 2.8 19.5h18.4z"/><path d="M12 10v4.5M12 17.2h.01"/></symbol>
+    <symbol id="icon-4" viewBox="0 0 24 24"><path d="M8.2 3h7.6L21 8.2v7.6L15.8 21H8.2L3 15.8V8.2z"/><path d="M12 7.5v5.5M12 16.3h.01"/></symbol>
+    <symbol id="icon-0" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 12h7"/></symbol>
+    <symbol id="icon-flame" viewBox="0 0 64 64"><path fill="#d6202e" d="M32 8c2.7 9.5 13.5 14.8 13.5 27a13.5 13.5 0 0 1-27 0c0-5.4 2.7-8.6 5.4-11.3.5 3.2 2.2 5.4 4.3 6.5C27.5 22.2 28 14.8 32 8z"/><path fill="#5aa2ff" d="M32 30c1.3 4.2 6 6.3 6 11.5a6 6 0 0 1-12 0c0-2.6 1.5-4 3-5.4.3 1.5.9 2.5 1.9 3C30.5 36 30.5 33 32 30z"/></symbol>
+  </svg>
+
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <p class="brand">
+        <svg class="icon brand__icon" aria-hidden="true"><use href="#icon-flame"/></svg>
+        <span>FlammeFR</span>
+      </p>
+      <p class="site-header__tag">Risque d’incendie de forêt, département par département</p>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="hero" aria-labelledby="titre-principal">
+      <div class="wrap">
+        <h1 id="titre-principal">Risque d’incendie de forêt&nbsp;: le niveau dans votre département</h1>
+        <p class="lead">Niveau prévu pour demain (J+1) et après-demain (J+2) dans chaque département de France métropolitaine, à partir de prévisions météo. Disponible toute l’année.</p>
+        <p class="pill" id="last-update" role="status">Chargement des données…</p>
+        <div class="scale-band" aria-hidden="true">
+          <span class="scale-band__seg scale-band__seg--1"></span>
+          <span class="scale-band__seg scale-band__seg--2"></span>
+          <span class="scale-band__seg scale-band__seg--3"></span>
+          <span class="scale-band__seg scale-band__seg--4"></span>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap stack">
+      <section aria-labelledby="titre-recherche" class="panel">
+        <h2 id="titre-recherche">Rechercher un département</h2>
+        <form id="search-form" role="search" autocomplete="off" novalidate>
+          <label for="search" class="field-label">Numéro ou nom du département</label>
+          <div class="search">
+            <input id="search" name="q" type="text" inputmode="search" role="combobox"
+                   aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions"
+                   aria-describedby="search-help" autocapitalize="off" spellcheck="false"
+                   placeholder="Par exemple : 33 ou Gironde" disabled>
+            <button type="submit" class="btn" disabled>Afficher le risque</button>
+            <ul id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions de départements" hidden></ul>
+          </div>
+          <p id="search-help" class="help">Saisissez un numéro (33, 2A) ou un nom, avec ou sans accents ni majuscules. Utilisez les flèches haut et bas pour parcourir les suggestions, puis Entrée pour valider.</p>
+          <p id="suggestion-status" class="visually-hidden" role="status" aria-live="polite"></p>
+        </form>
+
+        <div id="status" class="notice" role="status" hidden></div>
+        <div id="result" class="result-zone" aria-live="polite" tabindex="-1"></div>
+      </section>
+
+      <section aria-labelledby="titre-legende" class="panel">
+        <h2 id="titre-legende">Échelle des niveaux de risque</h2>
+        <ol class="legend">
+          <li class="legend__item legend__item--1"><svg class="icon" aria-hidden="true"><use href="#icon-1"/></svg><span><strong>1 — Faible</strong> <span class="legend__color">vert</span><span class="legend__fwi">FWI inférieur à 11,2</span></span></li>
+          <li class="legend__item legend__item--2"><svg class="icon" aria-hidden="true"><use href="#icon-2"/></svg><span><strong>2 — Modéré</strong> <span class="legend__color">jaune</span><span class="legend__fwi">FWI de 11,2 à 21,3</span></span></li>
+          <li class="legend__item legend__item--3"><svg class="icon" aria-hidden="true"><use href="#icon-3"/></svg><span><strong>3 — Élevé</strong> <span class="legend__color">orange</span><span class="legend__fwi">FWI de 21,3 à 38</span></span></li>
+          <li class="legend__item legend__item--4"><svg class="icon" aria-hidden="true"><use href="#icon-4"/></svg><span><strong>4 — Très élevé</strong> <span class="legend__color">rouge</span><span class="legend__fwi">FWI de 38 et plus</span></span></li>
+        </ol>
+        <p class="help">Les niveaux concernent uniquement la France métropolitaine et deux échéances : J+1 (demain) et J+2 (après-demain). Ils sont recalculés chaque jour, toute l’année, à partir de l’indice forêt-météo (FWI) calculé au chef-lieu de chaque département.</p>
+      </section>
+
+      <section id="synthese" aria-labelledby="titre-synthese" class="panel" hidden>
+        <h2 id="titre-synthese">Vue d’ensemble de la France métropolitaine</h2>
+        <div class="table-scroll">
+          <table class="data-table" id="summary-table">
+            <caption>Nombre de départements par niveau de risque</caption>
+            <thead><tr><th scope="col">Niveau</th><th scope="col" class="num">J+1</th><th scope="col" class="num">J+2</th></tr></thead>
+            <tbody id="summary-body"></tbody>
+          </table>
+        </div>
+        <details class="all-departments">
+          <summary>Afficher tous les départements</summary>
+          <div class="table-scroll">
+            <table class="data-table">
+              <caption class="visually-hidden">Niveaux de risque J+1 et J+2 pour chaque département</caption>
+              <thead><tr><th scope="col">Département</th><th scope="col">J+1</th><th scope="col">J+2</th></tr></thead>
+              <tbody id="all-body"></tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+
+      <!-- seo:content:begin -->
+      <section id="departements" aria-labelledby="titre-departements" class="panel">
+        <h2 id="titre-departements">Risque d’incendie de forêt dans chaque département</h2>
+        <ul class="dept-links">
+          <li><a href="./departement/ain-01/">Ain (01)</a></li>
+          <li><a href="./departement/aisne-02/">Aisne (02)</a></li>
+          <li><a href="./departement/allier-03/">Allier (03)</a></li>
+          <li><a href="./departement/alpes-de-haute-provence-04/">Alpes-de-Haute-Provence (04)</a></li>
+          <li><a href="./departement/hautes-alpes-05/">Hautes-Alpes (05)</a></li>
+          <li><a href="./departement/alpes-maritimes-06/">Alpes-Maritimes (06)</a></li>
+          <li><a href="./departement/ardeche-07/">Ardèche (07)</a></li>
+          <li><a href="./departement/ardennes-08/">Ardennes (08)</a></li>
+          <li><a href="./departement/ariege-09/">Ariège (09)</a></li>
+          <li><a href="./departement/aube-10/">Aube (10)</a></li>
+          <li><a href="./departement/aude-11/">Aude (11)</a></li>
+          <li><a href="./departement/aveyron-12/">Aveyron (12)</a></li>
+          <li><a href="./departement/bouches-du-rhone-13/">Bouches-du-Rhône (13)</a></li>
+          <li><a href="./departement/calvados-14/">Calvados (14)</a></li>
+          <li><a href="./departement/cantal-15/">Cantal (15)</a></li>
+          <li><a href="./departement/charente-16/">Charente (16)</a></li>
+          <li><a href="./departement/charente-maritime-17/">Charente-Maritime (17)</a></li>
+          <li><a href="./departement/cher-18/">Cher (18)</a></li>
+          <li><a href="./departement/correze-19/">Corrèze (19)</a></li>
+          <li><a href="./departement/corse-du-sud-2a/">Corse-du-Sud (2A)</a></li>
+          <li><a href="./departement/haute-corse-2b/">Haute-Corse (2B)</a></li>
+          <li><a href="./departement/cote-d-or-21/">Côte-d'Or (21)</a></li>
+          <li><a href="./departement/cotes-d-armor-22/">Côtes-d'Armor (22)</a></li>
+          <li><a href="./departement/creuse-23/">Creuse (23)</a></li>
+          <li><a href="./departement/dordogne-24/">Dordogne (24)</a></li>
+          <li><a href="./departement/doubs-25/">Doubs (25)</a></li>
+          <li><a href="./departement/drome-26/">Drôme (26)</a></li>
+          <li><a href="./departement/eure-27/">Eure (27)</a></li>
+          <li><a href="./departement/eure-et-loir-28/">Eure-et-Loir (28)</a></li>
+          <li><a href="./departement/finistere-29/">Finistère (29)</a></li>
+          <li><a href="./departement/gard-30/">Gard (30)</a></li>
+          <li><a href="./departement/haute-garonne-31/">Haute-Garonne (31)</a></li>
+          <li><a href="./departement/gers-32/">Gers (32)</a></li>
+          <li><a href="./departement/gironde-33/">Gironde (33)</a></li>
+          <li><a href="./departement/herault-34/">Hérault (34)</a></li>
+          <li><a href="./departement/ille-et-vilaine-35/">Ille-et-Vilaine (35)</a></li>
+          <li><a href="./departement/indre-36/">Indre (36)</a></li>
+          <li><a href="./departement/indre-et-loire-37/">Indre-et-Loire (37)</a></li>
+          <li><a href="./departement/isere-38/">Isère (38)</a></li>
+          <li><a href="./departement/jura-39/">Jura (39)</a></li>
+          <li><a href="./departement/landes-40/">Landes (40)</a></li>
+          <li><a href="./departement/loir-et-cher-41/">Loir-et-Cher (41)</a></li>
+          <li><a href="./departement/loire-42/">Loire (42)</a></li>
+          <li><a href="./departement/haute-loire-43/">Haute-Loire (43)</a></li>
+          <li><a href="./departement/loire-atlantique-44/">Loire-Atlantique (44)</a></li>
+          <li><a href="./departement/loiret-45/">Loiret (45)</a></li>
+          <li><a href="./departement/lot-46/">Lot (46)</a></li>
+          <li><a href="./departement/lot-et-garonne-47/">Lot-et-Garonne (47)</a></li>
+          <li><a href="./departement/lozere-48/">Lozère (48)</a></li>
+          <li><a href="./departement/maine-et-loire-49/">Maine-et-Loire (49)</a></li>
+          <li><a href="./departement/manche-50/">Manche (50)</a></li>
+          <li><a href="./departement/marne-51/">Marne (51)</a></li>
+          <li><a href="./departement/haute-marne-52/">Haute-Marne (52)</a></li>
+          <li><a href="./departement/mayenne-53/">Mayenne (53)</a></li>
+          <li><a href="./departement/meurthe-et-moselle-54/">Meurthe-et-Moselle (54)</a></li>
+          <li><a href="./departement/meuse-55/">Meuse (55)</a></li>
+          <li><a href="./departement/morbihan-56/">Morbihan (56)</a></li>
+          <li><a href="./departement/moselle-57/">Moselle (57)</a></li>
+          <li><a href="./departement/nievre-58/">Nièvre (58)</a></li>
+          <li><a href="./departement/nord-59/">Nord (59)</a></li>
+          <li><a href="./departement/oise-60/">Oise (60)</a></li>
+          <li><a href="./departement/orne-61/">Orne (61)</a></li>
+          <li><a href="./departement/pas-de-calais-62/">Pas-de-Calais (62)</a></li>
+          <li><a href="./departement/puy-de-dome-63/">Puy-de-Dôme (63)</a></li>
+          <li><a href="./departement/pyrenees-atlantiques-64/">Pyrénées-Atlantiques (64)</a></li>
+          <li><a href="./departement/hautes-pyrenees-65/">Hautes-Pyrénées (65)</a></li>
+          <li><a href="./departement/pyrenees-orientales-66/">Pyrénées-Orientales (66)</a></li>
+          <li><a href="./departement/bas-rhin-67/">Bas-Rhin (67)</a></li>
+          <li><a href="./departement/haut-rhin-68/">Haut-Rhin (68)</a></li>
+          <li><a href="./departement/rhone-69/">Rhône (69)</a></li>
+          <li><a href="./departement/haute-saone-70/">Haute-Saône (70)</a></li>
+          <li><a href="./departement/saone-et-loire-71/">Saône-et-Loire (71)</a></li>
+          <li><a href="./departement/sarthe-72/">Sarthe (72)</a></li>
+          <li><a href="./departement/savoie-73/">Savoie (73)</a></li>
+          <li><a href="./departement/haute-savoie-74/">Haute-Savoie (74)</a></li>
+          <li><a href="./departement/paris-75/">Paris (75)</a></li>
+          <li><a href="./departement/seine-maritime-76/">Seine-Maritime (76)</a></li>
+          <li><a href="./departement/seine-et-marne-77/">Seine-et-Marne (77)</a></li>
+          <li><a href="./departement/yvelines-78/">Yvelines (78)</a></li>
+          <li><a href="./departement/deux-sevres-79/">Deux-Sèvres (79)</a></li>
+          <li><a href="./departement/somme-80/">Somme (80)</a></li>
+          <li><a href="./departement/tarn-81/">Tarn (81)</a></li>
+          <li><a href="./departement/tarn-et-garonne-82/">Tarn-et-Garonne (82)</a></li>
+          <li><a href="./departement/var-83/">Var (83)</a></li>
+          <li><a href="./departement/vaucluse-84/">Vaucluse (84)</a></li>
+          <li><a href="./departement/vendee-85/">Vendée (85)</a></li>
+          <li><a href="./departement/vienne-86/">Vienne (86)</a></li>
+          <li><a href="./departement/haute-vienne-87/">Haute-Vienne (87)</a></li>
+          <li><a href="./departement/vosges-88/">Vosges (88)</a></li>
+          <li><a href="./departement/yonne-89/">Yonne (89)</a></li>
+          <li><a href="./departement/territoire-de-belfort-90/">Territoire de Belfort (90)</a></li>
+          <li><a href="./departement/essonne-91/">Essonne (91)</a></li>
+          <li><a href="./departement/hauts-de-seine-92/">Hauts-de-Seine (92)</a></li>
+          <li><a href="./departement/seine-saint-denis-93/">Seine-Saint-Denis (93)</a></li>
+          <li><a href="./departement/val-de-marne-94/">Val-de-Marne (94)</a></li>
+          <li><a href="./departement/val-d-oise-95/">Val-d'Oise (95)</a></li>
+        </ul>
+      </section>
+
+            <section aria-labelledby="titre-faq" class="panel faq">
+        <h2 id="titre-faq">Questions fréquentes</h2>
+        <h3>Que signifie le niveau affiché ?</h3>
+        <p>FlammeFR affiche, pour chaque département, un niveau de risque d’incendie de forêt pour demain (J+1) et après-demain (J+2). Ce niveau repose sur l’indice forêt-météo canadien (FWI), calculé à partir des prévisions météorologiques au chef-lieu du département.</p>
+        <h3>Comment lire les quatre niveaux de risque ?</h3>
+        <p>L’échelle comporte quatre niveaux : 1 (Faible, FWI inférieur à 11,2), 2 (Modéré, de 11,2 à 21,3), 3 (Élevé, de 21,3 à 38) et 4 (Très élevé, 38 et plus). Plus le niveau est haut, plus les conditions favorisent le départ et la propagation d’un feu de végétation.</p>
+        <h3>Le site fonctionne-t-il toute l’année ?</h3>
+        <p>Oui. Le calcul est refait chaque jour, en toute saison. Hors été, les niveaux sont souvent bas, mais un épisode chaud, sec et venteux peut les faire monter à tout moment de l’année.</p>
+        <h3>Que faire quand le risque est élevé ou très élevé ?</h3>
+        <p>Évitez tout feu, barbecue ou point chaud en forêt et à proximité de la végétation sèche, ne jetez jamais de mégot, et ne stationnez pas sur l’herbe sèche. Renseignez-vous sur les arrêtés de votre préfecture, qui peuvent limiter l’accès aux massifs. En cas de départ de feu, appelez le 18 ou le 112.</p>
+        <h3>FlammeFR remplace-t-il les arrêtés préfectoraux ?</h3>
+        <p>Non. FlammeFR est un outil d’information. Seuls les arrêtés des préfectures et les consignes des autorités et des sapeurs-pompiers font foi pour les restrictions d’accès aux massifs ou d’usage du feu.</p>
+        <h3>D’où viennent les données et comment sont-elles calculées ?</h3>
+        <p>Les prévisions météorologiques viennent d’Open-Meteo.com, sous licence CC BY 4.0. Chaque jour, FlammeFR en tire l’indice FWI de chaque département. Ce niveau est un calcul du site : il ne s’agit ni d’un bulletin officiel de Météo-France ni d’une consigne des autorités. Aucune donnée personnelle n’est collectée.</p>
+      </section>
+<section aria-labelledby="titre-sources" class="panel sources">
+        <h2 id="titre-sources">Sources et méthode</h2>
+        <ul>
+          <li>Prévisions météo : <a href="https://open-meteo.com/">Open-Meteo.com</a>, sous licence CC BY 4.0.</li>
+          <li>Indice forêt-météo (FWI) : Van Wagner, C.E. (1987), <em>Development and structure of the Canadian Forest Fire Weather Index System</em>, Forestry Technical Report 35, Canadian Forestry Service.</li>
+          <li>Classes de niveau : système européen d’information sur les feux de forêt, <a href="https://effis.jrc.ec.europa.eu/">EFFIS</a>.</li>
+        </ul>
+      </section>
+<!-- seo:content:end -->
+
+      <aside class="warning" role="note" aria-labelledby="titre-avertissement">
+        <h2 id="titre-avertissement">Information et sécurité</h2>
+        <p>FlammeFR est un outil d’information. Il ne remplace ni les consignes des autorités (préfectures, mairies, sapeurs-pompiers) ni les arrêtés locaux de restriction d’accès aux massifs ou d’usage du feu.</p>
+        <p><strong>En cas d’urgence, appelez le 18 ou le 112.</strong> Le 18 joint les sapeurs-pompiers ; le 112 est le numéro d’urgence européen.</p>
+      </aside>
+    </div>
+
+    <noscript><div class="wrap"><p class="notice notice--error">Ce site a besoin de JavaScript pour afficher les niveaux de risque. Activez-le dans votre navigateur, puis rechargez la page.</p></div></noscript>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><strong>Données météo : Open-Meteo.com.</strong> Prévisions utilisées pour calculer l’indice FWI, sous <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" rel="noopener noreferrer" target="_blank">licence CC BY 4.0<span class="visually-hidden"> (s’ouvre dans un nouvel onglet)</span></a>. Le niveau de risque est un calcul de FlammeFR, non un bulletin officiel.</p>
+      <p id="footer-update">Dernier calcul : donnée indisponible.</p>
+      <p>Site indépendant, non affilié à Open-Meteo ni à Météo-France.</p>
+      <p><a class="source-link" href="https://github.com/Chama-PT/Flamme-FR/" rel="noopener noreferrer" target="_blank"><svg class="icon-github" aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="18" height="18"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code source sur GitHub<span class="visually-hidden"> (s’ouvre dans un nouvel onglet)</span></a></p>
+    </div>
+  </footer>
+</body>
+</html>

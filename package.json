@@ -1,0 +1,15 @@
+{
+  "name": "flammefr",
+  "version": "1.0.0",
+  "description": "Risque d'incendie de forêt par département en France métropolitaine (indice FWI, prévisions Open-Meteo).",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "update-data": "node scripts/fetch-data.js",
+    "check": "node --check scripts/fetch-data.js && node --check assets/js/app.js && node --check assets/js/dept.js"
+  }
+}
