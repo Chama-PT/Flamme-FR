@@ -69,7 +69,7 @@ Le site doit être servi via HTTP : `fetch` ne fonctionne pas depuis une ouvertu
 
 ## Déploiement
 
-Le projet est conçu pour être déployé sur [Vercel](https://vercel.com).
+Le projet est conçu pour être déployé sur [Vercel](https://vercel.com) ou sur Github Pages.
 
 1. Poussez le dépôt sur GitHub, en incluant le dossier `.github/workflows`.
 2. Sur Vercel, importez le dépôt GitHub avec le framework **Other**.
