@@ -59,33 +59,6 @@ GitHub Actions (cron quotidien, 05 h 00 UTC)
 └── LICENSE
 ```
 
-## Référencement naturel (SEO)
-
-Le script `scripts/build-seo.js` s’exécute après le calcul et génère :
-
-- **une page statique par département** (`/departement/gironde-33/`) avec titre, description, `h1`, région, préfecture et niveaux J+1 / J+2 ;
-- les balises de la page d’accueil : `title`, description, URL canonique, Open Graph, Twitter Card, `hreflang`, données structurées JSON-LD (`WebSite`, `Dataset`, `BreadcrumbList` sur les pages départements) ;
-- un contenu éditorial visible (liens vers les 96 départements, questions fréquentes), `sitemap.xml`, `robots.txt`, `manifest.webmanifest` et `404.html` ;
-- aucun cookie, aucun traceur, aucun script tiers.
-
-**URL du site.** Elle est fixée par la variable `SITE_URL` du workflow (par défaut `https://flamme-fr.vercel.app/`). Pour un domaine personnalisé, créez la variable `SITE_URL` (Settings > Secrets and variables > Actions > Variables), par exemple `https://flammefr.fr/`, puis relancez le workflow. L’adresse du sitemap doit correspondre exactement à celle de la propriété Search Console.
-
-### Après la mise en ligne
-
-1. Ajoutez le site dans la [Google Search Console](https://search.google.com/search-console) (propriété « Préfixe d’URL »), puis soumettez `sitemap.xml`. Faites de même dans [Bing Webmaster Tools](https://www.bing.com/webmasters).
-2. Demandez l’indexation de la page d’accueil et de quelques pages départements (outil « Inspection de l’URL »).
-3. Le site étant utile toute l’année, la communication peut être continue. Les pics de recherche suivent toutefois les vagues de chaleur et la saison des feux (juin à septembre).
-
-## Mise en ligne
-
-1. Poussez le dépôt sur GitHub (le dossier `.github/workflows` doit être présent).
-2. Sur [vercel.com](https://vercel.com), **Add New > Project**, importez le dépôt. Framework : **Other**. Laissez vides la commande de build et la commande d’installation (`vercel.json` s’en charge).
-3. Dans GitHub, vérifiez **Settings > Actions > General > Workflow permissions** : « Read and write permissions » doit être autorisée pour que le workflow puisse pousser `data/fwi.json`.
-4. Lancez une première fois le workflow (**Actions > Mise à jour du risque d’incendie de forêt > Run workflow**). Aucun secret n’est nécessaire.
-5. Vérifiez `https://<votre-adresse>/sitemap.xml`, puis soumettez-le dans la Search Console.
-
-Chaque commit de données déclenche un nouveau déploiement.
-
 ## Configuration
 
 Aucun secret n’est requis. Une variable facultative permet de changer l’API :
