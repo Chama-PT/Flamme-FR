@@ -2,7 +2,7 @@
 
 Niveau de risque d'incendie de forêt pour les 96 départements de France métropolitaine, calculé chaque jour à partir de prévisions météo (indice forêt-météo, FWI). Aujourd'hui, demain et après-demain.
 
-Site statique, sans dépendance et sans étape de build : les fichiers du dépôt sont servis tels quels par Vercel.
+Site statique, sans dépendance et sans étape de build : les fichiers du dépôt sont servis tels quels par Vercel. PROJET FAIT PAR IA (Claude) !
 
 ## Structure
 
