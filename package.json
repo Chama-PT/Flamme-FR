@@ -1,0 +1,14 @@
+{
+  "name": "flammefr",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "FlammeFR : niveau de risque d'incendie de forêt par département (indice forêt-météo).",
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "update-data": "node scripts/fetch-data.js",
+    "check": "node --check scripts/fetch-data.js && node --check assets/js/lib.js && node --check assets/js/content.js && node --check assets/js/site.js && node --check assets/js/home.js && node --check assets/js/dept.js",
+    "generate-pages": "node tools/generate-pages.mjs"
+  }
+}
