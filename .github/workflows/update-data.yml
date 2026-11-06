@@ -1,0 +1,53 @@
+name: Mise à jour du risque d’incendie de forêt
+
+on:
+  schedule:
+    # Chaque jour à 05 h 00 UTC (07 h 00 en été, 06 h 00 en hiver à Paris).
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+
+# Permissions minimales : seul le commit du fichier de données est nécessaire.
+permissions:
+  contents: write
+
+# Évite deux exécutions simultanées qui se disputeraient le push.
+concurrency:
+  group: update-fwi-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Calculer et publier les niveaux
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Récupérer le dépôt
+        uses: actions/checkout@v4
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24" # LTS ; aucune dépendance npm à installer
+
+      - name: Télécharger les prévisions et calculer l’indice FWI
+        env:
+          # API Open-Meteo : sans clé pour un usage non commercial. Variable facultative.
+          OPEN_METEO_URL: ${{ vars.OPEN_METEO_URL || 'https://api.open-meteo.com/v1/forecast' }}
+        run: node scripts/fetch-data.js
+
+      # Les niveaux du jour sont aussi écrits dans le HTML (robots sans JavaScript, moteurs de recherche, assistants IA).
+      - name: Régénérer les pages avec les données du jour
+        run: node tools/generate-pages.mjs
+
+      - name: Valider et pousser les fichiers modifiés
+        run: |
+          PATHS="data index.html departement methodologie a-propos 404.html sitemap.xml robots.txt llms.txt manifest.webmanifest vercel.json assets/data"
+          if [ -z "$(git status --porcelain -- $PATHS)" ]; then
+            echo "Aucun changement : pas de commit."
+            exit 0
+          fi
+          git config user.name "ChamaPT"
+          git config user.email "rodrichannel6@gmail.com"
+          git add $PATHS
+          git commit -m "Mise à jour automatique du risque d’incendie"
+          git push origin main
