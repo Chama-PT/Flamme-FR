@@ -41,7 +41,7 @@ jobs:
 
       - name: Valider et pousser les fichiers modifiés
         run: |
-          PATHS="data index.html departement methodologie a-propos 404.html sitemap.xml robots.txt llms.txt manifest.webmanifest vercel.json assets/data"
+          PATHS="data index.html departement methodologie a-propos 404.html sitemap.xml robots.txt manifest.webmanifest vercel.json assets/data"
           if [ -z "$(git status --porcelain -- $PATHS)" ]; then
             echo "Aucun changement : pas de commit."
             exit 0
